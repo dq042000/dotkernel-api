@@ -1,0 +1,9 @@
+# Global
+.history
+.docker/logs/nginx/*
+DB/*
+
+.env
+.docker/nginx/default.conf
+docker-compose.yml
+web/api/log/*
