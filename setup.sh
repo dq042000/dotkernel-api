@@ -13,14 +13,25 @@ COLOR_BACKGROUND_GREEN='\e[1;42m';
 COLOR_BACKGROUND_YELLOW='\e[1;43m';
 COLOR_BACKGROUND_BLUE_GREEN='\e[46m'; # 青色
 
+########################################
+# 檢查 docker-compose 是否存在
+# docker-compose 1.29.0 之後的版本，docker-compose 已經被整合到 docker 中，並改為使用 docker compose
+# 這邊使用 command -v docker-compose 來判斷是否存在 docker-compose
+# https://stackoverflow.com/questions/66514436/difference-between-docker-compose-and-docker-compose
+if command -v docker-compose != NULL; then
+    dockerCompose="docker-compose"
+else
+    dockerCompose="docker compose"
+fi
+
 RemoveContainer () {
     lastResult=$?
     if [ $lastResult -ne 0 ] && [ $lastResult -ne 130 ] && [ $lastResult -ne 16888 ]; then
         echo "$COLOR_BACKGROUND_RED 狀態:$lastResult, 啟動專案過程有錯誤，移除所有容器。 $COLOR_REST"
-        docker-compose down
+        ${dockerCompose} down
     elif [ $lastResult = 16888 ]; then
         echo "$COLOR_BACKGROUND_RED 中止... $COLOR_REST"
-        docker-compose down
+        ${dockerCompose} down
     fi
 }
 trap RemoveContainer EXIT
@@ -47,11 +58,10 @@ Init() {
 DefaultSetting() {
     # Copy php config files
     cp web/${PHP_DIRECTORY}/config/autoload/local.php.dist web/${PHP_DIRECTORY}/config/autoload/local.php
-    cp web/${PHP_DIRECTORY}/config/autoload/paginator.global.php.dist web/${PHP_DIRECTORY}/config/autoload/paginator.global.php
     echo "$COLOR_BACKGROUND_YELLOW 複製 專案 Config 檔案... 成功 $COLOR_REST"
 
     # Start container
-    docker-compose up -d --build
+    ${dockerCompose} up -d --build
     echo "$COLOR_BACKGROUND_GREEN 啟動容器... 成功 $COLOR_REST"
 }
 
@@ -102,8 +112,9 @@ MainMenu() {
     ########################################
     # 啟動開發環境
     elif [ $user_select = 2 ]; then
-        # Run default setting
-        DefaultSetting
+        # Start container
+        ${dockerCompose} up -d --build
+        echo "$COLOR_BACKGROUND_GREEN 啟動容器... 成功 $COLOR_REST"
 
         # Update php packages
         docker exec -it ${containerNamePrefix}_php_1 composer install && echo "$COLOR_BACKGROUND_GREEN 更新 php 相關套件... 成功 $COLOR_REST"
@@ -118,8 +129,9 @@ MainMenu() {
     ########################################
     # 模擬啟動正式環境
     elif [ $user_select = 3 ]; then
-        # Run default setting
-        DefaultSetting
+        # Start container
+        ${dockerCompose} up -d --build
+        echo "$COLOR_BACKGROUND_GREEN 啟動容器... 成功 $COLOR_REST"
 
         # Update php packages
         docker exec -it ${containerNamePrefix}_php_1 composer install && echo "$COLOR_BACKGROUND_GREEN 更新 php 相關套件... 成功 $COLOR_REST"
