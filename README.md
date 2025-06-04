@@ -19,15 +19,21 @@
 
 1. 下載或複製本專案原始碼
 
-2. 於專案根目錄執行以下指令安裝相依套件：
+2. 執行下列指令啟動 docker 佇列環境：
+
+   ```bash
+   sh setup.sh
+   ```
+
+3. 於專案根目錄執行以下指令安裝相依套件：
 
    ```bash
    docker exec -ti dotkernel-api_php_1 composer install
    ```
 
-3. 設定環境變數檔案 .env
+4. 設定環境變數檔案 .env
 
-4. 初始化資料庫：
+5. 初始化資料庫：
 
    ```bash
    docker exec -ti dotkernel-api_php_1 vendor/bin/doctrine-migrations migrate
@@ -35,7 +41,7 @@
 
    此指令會執行資料庫遷移，建立或更新資料表結構，確保資料庫與程式碼結構相容。
 
-5. 查看可用的範例資料 (fixtures) 清單：
+6. 查看可用的範例資料 (fixtures) 清單：
 
    ```bash
    docker exec -ti dotkernel-api_php_1 php bin/doctrine fixtures:list
@@ -43,7 +49,7 @@
 
    此指令會顯示目前可用於載入的所有範例資料 (fixtures) 資訊，方便你確認有哪些資料可以寫入資料庫。
 
-6. 載入預設資料 (fixtures)：
+7. 載入預設資料 (fixtures)：
 
    ```bash
    docker exec -ti dotkernel-api_php_1 php bin/doctrine fixtures:execute
@@ -51,11 +57,17 @@
 
    此指令會將預先定義的範例資料 (fixtures) 寫入資料庫，方便開發或測試時使用。
 
-7. 啟動伺服器：
+8. 打開瀏覽器，於網址列輸入：
 
-   ```bash
-   docker exec -ti dotkernel-api_php_1 php -S localhost:8000 -t public
+   <http://localhost:9810>
+
+   畫面若顯示：
+
+   ```json
+   {"message": "Dotkernel API version 6"}
    ```
+
+   即完成。
 
 ## 目錄結構
 
