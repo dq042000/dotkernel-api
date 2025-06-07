@@ -44,18 +44,19 @@ echo "$COLOR_BACKGROUND_BLUE_GREEN 現在位置 - ${containerNamePrefix} $COLOR_
 
 # 初始化
 Init() {
-    # Copy config files
-    cp env-sample .env
-    cp docker-compose.yml.sample docker-compose.yml
-    cp .docker/nginx/default.conf.dist .docker/nginx/default.conf
-    echo "$COLOR_BACKGROUND_YELLOW 準備啟動檔案... 成功 $COLOR_REST"
-
     # 讀取「.env」
     . ${dir}/.env
 }
 
 # 預設設定
 DefaultSetting() {
+    # Copy config files
+    cp env-sample .env
+    cp docker-compose.yml.sample docker-compose.yml
+    cp .docker/nginx/default.conf.dist .docker/nginx/default.conf
+    ln .env web/${PHP_DIRECTORY}/config/.env
+    echo "$COLOR_BACKGROUND_YELLOW 準備啟動檔案... 成功 $COLOR_REST"
+
     # Copy php config files
     cp web/${PHP_DIRECTORY}/config/autoload/local.php.dist web/${PHP_DIRECTORY}/config/autoload/local.php
     echo "$COLOR_BACKGROUND_YELLOW 複製 專案 Config 檔案... 成功 $COLOR_REST"
@@ -68,7 +69,6 @@ DefaultSetting() {
 # 主選單
 MainMenu() {
     clear
-
     Init # 初始化
 
     echo $COLOR_YELLOW"======= 選單 ===================================================================="$COLOR_REST;

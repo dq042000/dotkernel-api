@@ -5,6 +5,9 @@ declare(strict_types=1);
 // To enable or disable caching, set the `ConfigAggregator::ENABLE_CACHE` boolean in
 // `config/autoload/local.php`.
 
+// 取得 ./web/api/.env 環境設定
+\Dotenv\Dotenv::createImmutable('./config')->load();
+
 $cacheConfig = [
     'config_cache_path' => 'data/cache/config-cache.php',
 ];

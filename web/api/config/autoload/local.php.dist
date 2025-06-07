@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-$baseUrl = 'http://localhost:8080';
+$baseUrl = $_ENV['WEB_URL'];
 
 $databases = [
     'default' => [
-        'host'     => 'localhost',
-        'dbname'   => '',
-        'user'     => '',
-        'password' => '',
+        'host'     => $_ENV['MYSQL_HOST'],
+        'dbname'   => $_ENV['MYSQL_DATABASE'],
+        'user'     => $_ENV['MYSQL_ROOT_USER'],
+        'password' => $_ENV['MYSQL_ROOT_PASSWORD'],
         'port'     => 3306,
         'driver'   => 'pdo_mysql',
         'charset'  => 'utf8mb4',

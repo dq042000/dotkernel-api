@@ -10,6 +10,7 @@ REDIS_PORT=9813
 
 ### DEFAULT ###########################################
 PHP_DIRECTORY=api
+WEB_URL=http://dotkernel-api.test:${NGINX_PORT}
 
 ### PHP Version ###########################################
 

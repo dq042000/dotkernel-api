@@ -3,11 +3,11 @@
 # Image Setup
 #--------------------------------------------------------------------------
 #
-ARG PHP_VERSION
+ARG PHP_VERSION=8.3
 FROM php:${PHP_VERSION}-fpm
 
 # Set Environment Variables
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 #
 #--------------------------------------------------------------------------
